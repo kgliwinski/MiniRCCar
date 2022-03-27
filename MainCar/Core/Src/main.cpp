@@ -25,6 +25,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "Pin.hh"
+#include "SevenSegment.hh"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -97,17 +98,33 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   Pin LED(GPIOC, GPIO_PIN_13);
+  Pin dispA(GPIOA, GPIO_PIN_7);
+  Pin dispB(GPIOA, GPIO_PIN_4);
+  Pin dispC(GPIOB, GPIO_PIN_1);
+  Pin dispD(GPIOB, GPIO_PIN_0);
+  Pin dispE(GPIOB, GPIO_PIN_2);
+  Pin dispF(GPIOA, GPIO_PIN_5);
+  Pin dispG(GPIOA, GPIO_PIN_6);
   /* USER CODE END 2 */
+  Pin dispGND1(GPIOB, GPIO_PIN_14);
+  Pin dispGND2(GPIOB, GPIO_PIN_15);
+  dispGND1.writePin(0);
+  dispGND2.writePin(0);
 
+  SevenSegment disp(dispA, dispB, dispC, dispD, dispE, dispF, dispG);
+  disp.clearDisp();
+  uint8_t i = 0;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  LED.writePin(1);
-	  HAL_Delay(500);
-	  LED.writePin(0);
-	  HAL_Delay(500);
+	 for(i = 0; i < 10; ++i)
+	 {
+		 disp.writeDigit(i);
+		 HAL_Delay(500);
+		 disp.clearDisp();
+	 }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
