@@ -113,6 +113,8 @@ int main(void)
 
   SevenSegment disp(dispA, dispB, dispC, dispD, dispE, dispF, dispG);
   disp.clearDisp();
+  LED.writePin(1);
+
   uint8_t i = 0;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
