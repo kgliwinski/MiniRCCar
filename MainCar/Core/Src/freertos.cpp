@@ -23,10 +23,10 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "cmsis_os.h"
-#include "SevenSegmentX2.hh"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "SevenSegmentX2.hh"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,16 +114,16 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument) {
 	/* USER CODE BEGIN StartDefaultTask */
 	uint8_t i = 0, left = 0, right = 0;
-	Pin dispA(GPIOA, GPIO_PIN_7);
-	Pin dispB(GPIOA, GPIO_PIN_4);
-	Pin dispC(GPIOB, GPIO_PIN_1);
-	Pin dispD(GPIOB, GPIO_PIN_0);
-	Pin dispE(GPIOB, GPIO_PIN_2);
-	Pin dispF(GPIOA, GPIO_PIN_5);
-	Pin dispG(GPIOA, GPIO_PIN_6);
+	DigitalPin dispA(GPIOA, GPIO_PIN_7);
+	DigitalPin dispB(GPIOA, GPIO_PIN_4);
+	DigitalPin dispC(GPIOB, GPIO_PIN_1);
+	DigitalPin dispD(GPIOB, GPIO_PIN_0);
+	DigitalPin dispE(GPIOB, GPIO_PIN_2);
+	DigitalPin dispF(GPIOA, GPIO_PIN_5);
+	DigitalPin dispG(GPIOA, GPIO_PIN_6);
 
-	Pin dispGND1(GPIOB, GPIO_PIN_15);
-	Pin dispGND2(GPIOB, GPIO_PIN_14);
+	DigitalPin dispGND1(GPIOB, GPIO_PIN_15);
+	DigitalPin dispGND2(GPIOB, GPIO_PIN_14);
 	dispGND1.writePin(1);
 	dispGND2.writePin(1);
 

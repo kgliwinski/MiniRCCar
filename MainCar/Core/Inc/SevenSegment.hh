@@ -1,21 +1,21 @@
 #ifndef SEVEN_SEGMENT_HH
 #define SEVEN_SEGMENT_HH
 
-#include "Pin.hh"
+#include <DigitalPin.hh>
 
 class SevenSegment
 {
 private:
-	Pin ledA;
-	Pin ledB;
-	Pin ledC;
-	Pin ledD;
-	Pin ledE;
-	Pin ledF;
-	Pin ledG;
+	DigitalPin ledA;
+	DigitalPin ledB;
+	DigitalPin ledC;
+	DigitalPin ledD;
+	DigitalPin ledE;
+	DigitalPin ledF;
+	DigitalPin ledG;
 public:
 	SevenSegment() = default;
-	SevenSegment(Pin _ledA, Pin _ledB, Pin _ledC, Pin _ledD, Pin _ledE, Pin _ledF, Pin _ledG);
+	SevenSegment(DigitalPin _ledA, DigitalPin _ledB, DigitalPin _ledC, DigitalPin _ledD, DigitalPin _ledE, DigitalPin _ledF, DigitalPin _ledG);
 
 	/// turn off all leds on the display
 	void clearDisp();

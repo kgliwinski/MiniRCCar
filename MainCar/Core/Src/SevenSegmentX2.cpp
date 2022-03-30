@@ -1,7 +1,7 @@
 #include "SevenSegmentX2.hh"
 
-SevenSegmentX2::SevenSegmentX2(SevenSegment _singleSeg, Pin _leftGND,
-		Pin _rightGND) :
+SevenSegmentX2::SevenSegmentX2(SevenSegment _singleSeg, DigitalPin _leftGND,
+		DigitalPin _rightGND) :
 		singleSeg(_singleSeg), leftGND(_leftGND), rightGND(_rightGND)
 		{}
 

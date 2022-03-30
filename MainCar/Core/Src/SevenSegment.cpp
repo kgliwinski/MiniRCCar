@@ -1,7 +1,7 @@
 #include "SevenSegment.hh"
 
-SevenSegment::SevenSegment(Pin _ledA, Pin _ledB, Pin _ledC, Pin _ledD,
-		Pin _ledE, Pin _ledF, Pin _ledG) :
+SevenSegment::SevenSegment(DigitalPin _ledA, DigitalPin _ledB, DigitalPin _ledC, DigitalPin _ledD,
+		DigitalPin _ledE, DigitalPin _ledF, DigitalPin _ledG) :
 		ledA(_ledA), ledB(_ledB), ledC(_ledC), ledD(_ledD), ledE(_ledE), ledF(
 				_ledF), ledG(_ledG) {
 }

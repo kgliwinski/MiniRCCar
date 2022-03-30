@@ -25,11 +25,11 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "Pin.hh"
-#include "SevenSegmentX2.hh"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <DigitalPin.hh>
+#include "SevenSegmentX2.hh"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
