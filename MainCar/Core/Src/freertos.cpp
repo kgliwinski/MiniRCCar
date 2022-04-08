@@ -19,14 +19,15 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include <main.hh>
 #include "FreeRTOS.h"
 #include "task.h"
+#include "main.hh"
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "SevenSegmentX2.hh"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,6 +53,10 @@
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = { .name = "defaultTask",
 		.stack_size = 128 * 4, .priority = (osPriority_t) osPriorityNormal, };
+/* Definitions for displayTask */
+osThreadId_t displayTaskHandle;
+const osThreadAttr_t displayTask_attributes = { .name = "displayTask",
+		.stack_size = 1024 * 4, .priority = (osPriority_t) osPriorityLow1, };
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -59,8 +64,9 @@ const osThreadAttr_t defaultTask_attributes = { .name = "defaultTask",
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+void StartDisplayTask(void *argument);
 
-//void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
  * @brief  FreeRTOS initialization
@@ -93,9 +99,12 @@ void MX_FREERTOS_Init(void) {
 	defaultTaskHandle = osThreadNew(StartDefaultTask, NULL,
 			&defaultTask_attributes);
 
+	/* creation of displayTask */
+	displayTaskHandle = osThreadNew(StartDisplayTask, NULL,
+			&displayTask_attributes);
+
 	/* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
-
 	/* USER CODE END RTOS_THREADS */
 
 	/* USER CODE BEGIN RTOS_EVENTS */
@@ -112,18 +121,48 @@ void MX_FREERTOS_Init(void) {
  */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument) {
-	/* USER CODE BEGIN StartDefaultTask */
-	uint8_t i = 0, left = 0, right = 0;
-	DigitalPin dispA(GPIOA, GPIO_PIN_7);
-	DigitalPin dispB(GPIOA, GPIO_PIN_4);
-	DigitalPin dispC(GPIOB, GPIO_PIN_1);
-	DigitalPin dispD(GPIOB, GPIO_PIN_0);
-	DigitalPin dispE(GPIOB, GPIO_PIN_2);
-	DigitalPin dispF(GPIOA, GPIO_PIN_5);
-	DigitalPin dispG(GPIOA, GPIO_PIN_6);
+	DigitalPin DCAIn1(DC_AIN_1_PORT, DC_AIN_1_PIN);
+	DigitalPin DCAIn2(DC_AIN_2_PORT, DC_AIN_2_PIN);
 
-	DigitalPin dispGND1(GPIOB, GPIO_PIN_15);
-	DigitalPin dispGND2(GPIOB, GPIO_PIN_14);
+	DigitalPin DCBIn1(DC_BIN_1_PORT, DC_BIN_1_PIN);
+	DigitalPin DCBIn2(DC_BIN_2_PORT, DC_BIN_2_PIN);
+
+	DCAIn1.writePin(1);
+	DCAIn2.writePin(0);
+
+	DCBIn1.writePin(1);
+	DCBIn2.writePin(0);
+
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	TIM3->CCR1 = 65535;
+	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+	TIM4->CCR2 = 65535;
+	for (;;) {
+		osDelay(1);
+	}
+	/* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_StartDisplayTask */
+/**
+ * @brief Function implementing the displayTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
+/* USER CODE END Header_StartDisplayTask */
+void StartDisplayTask(void *argument) {
+	/* USER CODE BEGIN StartDisplayTask */
+	uint8_t i = 0, left = 0, right = 0;
+	DigitalPin dispA(DISP_A_PORT, DISP_A_PIN);
+	DigitalPin dispB(DISP_B_PORT, DISP_B_PIN);
+	DigitalPin dispC(DISP_C_PORT, DISP_C_PIN);
+	DigitalPin dispD(DISP_D_PORT, DISP_D_PIN);
+	DigitalPin dispE(DISP_E_PORT, DISP_E_PIN);
+	DigitalPin dispF(DISP_F_PORT, DISP_F_PIN);
+	DigitalPin dispG(DISP_G_PORT, DISP_G_PIN);
+
+	DigitalPin dispGND1(DISP_GND_LEFT_PORT, DISP_GND_LEFT_PIN);
+	DigitalPin dispGND2(DISP_GND_RIGHT_PORT, DISP_GND_RIGHT_PIN);
 	dispGND1.writePin(1);
 	dispGND2.writePin(1);
 
@@ -144,30 +183,22 @@ void StartDefaultTask(void *argument) {
 		osDelay(1);
 
 		i++;
-		if(i == 50)
-		{
-			if(right!=9 && left!=9)
-			{
+		if (i == 50) {
+			if (right != 9 && left != 9) {
 				right++;
-			}
-			else if(left!=9)
-			{
+			} else if (left != 9) {
 				right = 0;
-				left ++;
-			}
-			else if(right!=9)
-			{
+				left++;
+			} else if (right != 9) {
 				right++;
-			}
-			else if(right == 9 && left==9)
-			{
+			} else if (right == 9 && left == 9) {
 				right = 0;
 				left = 0;
 			}
 			i = 0;
 		}
 	}
-	/* USER CODE END StartDefaultTask */
+	/* USER CODE END StartDisplayTask */
 }
 
 /* Private application code --------------------------------------------------*/

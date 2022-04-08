@@ -11,9 +11,9 @@ private:
 	TIM_HandleTypeDef PWM;
 
 public:
-	SingleDCMotor(_inOne, _inTwo, _PWM);
+	SingleDCMotor(DigitalPin _inOne, DigitalPin _inTwo, TIM_HandleTypeDef _PWM);
 	~SingleDCMotor();
-	void moveMotor(bool dir,);
+	void moveMotor(bool dir);
 };
 
 #endif

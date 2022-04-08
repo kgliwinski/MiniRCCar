@@ -60,6 +60,41 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 /* USER CODE BEGIN Private defines */
 
+// display ports and pins
+#define DISP_A_PORT GPIOA
+#define DISP_A_PIN GPIO_PIN_7
+#define DISP_B_PORT GPIOA
+#define DISP_B_PIN GPIO_PIN_4
+#define DISP_C_PORT GPIOB
+#define DISP_C_PIN GPIO_PIN_1
+#define DISP_D_PORT GPIOB
+#define DISP_D_PIN GPIO_PIN_0
+#define DISP_E_PORT GPIOB
+#define DISP_E_PIN GPIO_PIN_2
+#define DISP_F_PORT GPIOA
+#define DISP_F_PIN GPIO_PIN_5
+#define DISP_G_PORT GPIOA
+#define DISP_G_PIN GPIO_PIN_6
+#define DISP_GND_LEFT_PORT GPIOB
+#define DISP_GND_LEFT_PIN GPIO_PIN_15
+#define DISP_GND_RIGHT_PORT GPIOB
+#define DISP_GND_RIGHT_PIN GPIO_PIN_14
+
+// DC motors
+
+// DC A
+#define DC_AIN_1_PORT GPIOB
+#define DC_AIN_1_PIN GPIO_PIN_5
+#define DC_AIN_2_PORT GPIOB
+#define DC_AIN_2_PIN GPIO_PIN_6
+#define DC_A_PWM_Tim htim3
+
+// DC B
+#define DC_BIN_1_PORT GPIOB
+#define DC_BIN_1_PIN GPIO_PIN_3
+#define DC_BIN_2_PORT GPIOA
+#define DC_BIN_2_PIN GPIO_PIN_15
+#define DC_B_PWM_Tim htim4
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
