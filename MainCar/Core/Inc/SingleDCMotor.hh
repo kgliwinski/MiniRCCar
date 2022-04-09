@@ -32,9 +32,9 @@ public:
 	 returns 0 if pwm doesnt start */
 	bool init();
 	/// set the direction of spinning wheel: dir=0 -> clockwise, dir=1->counterclockwise
-	void setDirection(bool dir);
+	void setDirection(const bool dir);
 	/// set the PWM pulse width (0-65535) but in the percents range (0-100%)
-	bool setPWMWidth(uint8_t perc);
+	bool setPWMWidth(const uint8_t perc);
 
 };
 

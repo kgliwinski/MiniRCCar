@@ -29,6 +29,7 @@
 #include "SevenSegmentX2.hh"
 #include "tim.h"
 #include "SingleDCMotor.hh"
+#include "VoltageMeter.hh"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -128,12 +129,14 @@ void StartDefaultTask(void *argument) {
 	DigitalPin DCBIn1(DC_BIN_1_PORT, DC_BIN_1_PIN);
 	DigitalPin DCBIn2(DC_BIN_2_PORT, DC_BIN_2_PIN);
 
-	SingleDCMotor MotorA(DCAIn1, DCAIn2, &htim4, *TIM4, TIM_CHANNEL_2, &(TIM4->CCR2));
-	SingleDCMotor MotorB(DCBIn1, DCBIn2, &htim3, *TIM3, TIM_CHANNEL_1, &(TIM3->CCR1));
+	SingleDCMotor MotorA(DCAIn1, DCAIn2, &htim4, *TIM4, TIM_CHANNEL_2,
+			&(TIM4->CCR2));
+	SingleDCMotor MotorB(DCBIn1, DCBIn2, &htim3, *TIM3, TIM_CHANNEL_1,
+			&(TIM3->CCR1));
 
 	MotorA.init();
 	MotorA.setDirection(1);
-	MotorA.setPWMWidth(40);
+	MotorA.setPWMWidth(0);
 
 	//HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	//TIM3->CCR1 = 65535;
@@ -155,7 +158,10 @@ void StartDefaultTask(void *argument) {
 /* USER CODE END Header_StartDisplayTask */
 void StartDisplayTask(void *argument) {
 	/* USER CODE BEGIN StartDisplayTask */
-	uint8_t i = 0, left = 0, right = 0;
+	// display inits
+	uint8_t i = 100;
+	uint32_t left = 0, right = 0;
+	float batteryVoltage;
 	DigitalPin dispA(DISP_A_PORT, DISP_A_PIN);
 	DigitalPin dispB(DISP_B_PORT, DISP_B_PIN);
 	DigitalPin dispC(DISP_C_PORT, DISP_C_PIN);
@@ -170,6 +176,13 @@ void StartDisplayTask(void *argument) {
 	dispGND2.writePin(1);
 
 	SevenSegment single(dispA, dispB, dispC, dispD, dispE, dispF, dispG);
+
+	// adc init
+	VoltageMeter VMeter(&hadc1, 6840.0, 3230.0, 3.74);
+	if (!VMeter.init()) {
+		osThreadTerminate(NULL);
+	}
+
 	//SevenSegmentX2 display(single, dispGND1, dispGND2);
 	single.clearDisp();
 	/* Infinite loop */
@@ -177,29 +190,22 @@ void StartDisplayTask(void *argument) {
 		single.clearDisp();
 		dispGND2.writePin(1);
 		dispGND1.writePin(0);
-		single.writeDigit(left);
+		if(!single.writeDigit(left))
+					single.writeDigit(0);
 		osDelay(1);
 		single.clearDisp();
 		dispGND1.writePin(1);
 		dispGND2.writePin(0);
-		single.writeDigit(right);
+		if(!single.writeDigit(right))
+			single.writeDigit(0);
 		osDelay(1);
-
-		i++;
-		if (i == 50) {
-			if (right != 9 && left != 9) {
-				right++;
-			} else if (left != 9) {
-				right = 0;
-				left++;
-			} else if (right != 9) {
-				right++;
-			} else if (right == 9 && left == 9) {
-				right = 0;
-				left = 0;
-			}
+		if (i == 100) {
+			batteryVoltage = VMeter.calculateVoltageVolts();
+			left = uint32_t(batteryVoltage * 10) / 10;
+			right = uint32_t(batteryVoltage * 10) % 10;
 			i = 0;
 		}
+		i++;
 	}
 	/* USER CODE END StartDisplayTask */
 }
