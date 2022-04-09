@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "SevenSegmentX2.hh"
 #include "tim.h"
+#include "SingleDCMotor.hh"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -127,18 +128,20 @@ void StartDefaultTask(void *argument) {
 	DigitalPin DCBIn1(DC_BIN_1_PORT, DC_BIN_1_PIN);
 	DigitalPin DCBIn2(DC_BIN_2_PORT, DC_BIN_2_PIN);
 
-	DCAIn1.writePin(1);
-	DCAIn2.writePin(0);
+	SingleDCMotor MotorA(DCAIn1, DCAIn2, &htim4, *TIM4, TIM_CHANNEL_2, &(TIM4->CCR2));
+	SingleDCMotor MotorB(DCBIn1, DCBIn2, &htim3, *TIM3, TIM_CHANNEL_1, &(TIM3->CCR1));
 
-	DCBIn1.writePin(1);
-	DCBIn2.writePin(0);
+	MotorA.init();
+	MotorA.setDirection(1);
+	MotorA.setPWMWidth(40);
 
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-	TIM3->CCR1 = 65535;
-	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
-	TIM4->CCR2 = 65535;
+	//HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	//TIM3->CCR1 = 65535;
+	//HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+	//TIM4->CCR2 = 65535;
 	for (;;) {
-		osDelay(1);
+
+		osDelay(10);
 	}
 	/* USER CODE END StartDefaultTask */
 }

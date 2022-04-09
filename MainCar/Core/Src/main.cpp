@@ -28,8 +28,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <DigitalPin.hh>
+#include "DigitalPin.hh"
 #include "SevenSegmentX2.hh"
+#include "SingleDCMotor.hh"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,26 +102,6 @@ int main(void) {
 	MX_TIM4_Init();
 	MX_USART2_UART_Init();
 	/* USER CODE BEGIN 2 */
-	/*
-	Pin LED(GPIOC, GPIO_PIN_13);
-	Pin dispA(GPIOA, GPIO_PIN_7);
-	Pin dispB(GPIOA, GPIO_PIN_4);
-	Pin dispC(GPIOB, GPIO_PIN_1);
-	Pin dispD(GPIOB, GPIO_PIN_0);
-	Pin dispE(GPIOB, GPIO_PIN_2);
-	Pin dispF(GPIOA, GPIO_PIN_5);
-	Pin dispG(GPIOA, GPIO_PIN_6);
-	/* USER CODE END 2 */
-	/*Pin dispGND1(GPIOB, GPIO_PIN_14);
-	Pin dispGND2(GPIOB, GPIO_PIN_15);
-	dispGND1.writePin(0);
-	dispGND2.writePin(0);
-
-	SevenSegment disp(dispA, dispB, dispC, dispD, dispE, dispF, dispG);
-	disp.clearDisp();
-	LED.writePin(1);
-
-	uint8_t i = 0;
 
 	/* USER CODE END 2 */
 
