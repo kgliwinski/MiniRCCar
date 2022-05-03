@@ -136,14 +136,22 @@ void StartDefaultTask(void *argument) {
 
 	MotorA.init();
 	MotorA.setDirection(1);
-	MotorA.setPWMWidth(0);
+	MotorA.setPWMWidth(100);
+	uint8_t i = 0, inc = 1;
 
+	DigitalPin stby(GPIOB, GPIO_PIN_10);
+	stby.writePin(1);
 	//HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	//TIM3->CCR1 = 65535;
 	//HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
 	//TIM4->CCR2 = 65535;
 	for (;;) {
-
+		//MotorA.setPWMWidth(i);
+		//i += inc;
+		//if(i == 100)
+			//inc = -1;
+		//else if(i == 0)
+			//inc = 1;
 		osDelay(10);
 	}
 	/* USER CODE END StartDefaultTask */
@@ -191,7 +199,7 @@ void StartDisplayTask(void *argument) {
 		dispGND2.writePin(1);
 		dispGND1.writePin(0);
 		if(!single.writeDigit(left))
-					single.writeDigit(0);
+			single.writeDigit(0);
 		osDelay(1);
 		single.clearDisp();
 		dispGND1.writePin(1);
@@ -201,8 +209,8 @@ void StartDisplayTask(void *argument) {
 		osDelay(1);
 		if (i == 100) {
 			batteryVoltage = VMeter.calculateVoltageVolts();
-			left = uint32_t(batteryVoltage * 10) / 10;
-			right = uint32_t(batteryVoltage * 10) % 10;
+			left = 1; //uint32_t(batteryVoltage * 10) / 10;
+			right = 2; //uint32_t(batteryVoltage * 10) % 10;
 			i = 0;
 		}
 		i++;

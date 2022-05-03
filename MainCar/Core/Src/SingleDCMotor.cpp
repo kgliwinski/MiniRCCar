@@ -6,7 +6,6 @@ SingleDCMotor::SingleDCMotor(DigitalPin _inOne, DigitalPin _inTwo,
 		inOne(_inOne), inTwo(_inTwo), PWMHandleTypeDef(_PWMHandleTypeDef), PWMTimTypeDef(
 				_PWMTimTypeDef), PWMChannel(_PWMChannel), PWMHandleTypeDefChannel(
 				_PWMHandleTypeDefChannel) {
-	state = STOP;
 }
 
 SingleDCMotor::~SingleDCMotor() {

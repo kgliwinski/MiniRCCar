@@ -9,9 +9,6 @@
 #include <tim.h>
 
 /// Standby not included
-enum MotorState {
-	STOP = 0, IDLE, CLOCKWISE, COUNTERCLOCKWISE, SHORT_BRAKE
-};
 
 class SingleDCMotor {
 private:
@@ -21,7 +18,7 @@ private:
 	TIM_TypeDef PWMTimTypeDef;
 	uint32_t PWMChannel;
 	volatile uint32_t *PWMHandleTypeDefChannel;
-	MotorState state;
+
 
 public:
 	SingleDCMotor(DigitalPin _inOne, DigitalPin _inTwo,
@@ -31,7 +28,7 @@ public:
 	/*! init of class:sets both inOne and inTwo pins low and starts pwm
 	 returns 0 if pwm doesnt start */
 	bool init();
-	/// set the direction of spinning wheel: dir=0 -> clockwise, dir=1->counterclockwise
+	/// set the direction of spinning wheel: dir=0 -> clockwise, dir=1 -> counterclockwise
 	void setDirection(const bool dir);
 	/// set the PWM pulse width (0-65535) but in the percents range (0-100%)
 	bool setPWMWidth(const uint8_t perc);
