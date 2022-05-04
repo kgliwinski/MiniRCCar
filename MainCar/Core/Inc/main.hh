@@ -84,9 +84,9 @@ void Error_Handler(void);
 #define DISP_A_GPIO_Port GPIOB
 #define DC_STBY_Pin GPIO_PIN_10
 #define DC_STBY_GPIO_Port GPIOB
-#define LIM_SW_L_Pin GPIO_PIN_12	//EXTI12
+#define LIM_SW_L_Pin GPIO_PIN_12
 #define LIM_SW_L_GPIO_Port GPIOB
-#define LIM_SW_R_Pin GPIO_PIN_13	//EXTI13
+#define LIM_SW_R_Pin GPIO_PIN_13
 #define LIM_SW_R_GPIO_Port GPIOB
 #define DISP_G1_Pin GPIO_PIN_14
 #define DISP_G1_GPIO_Port GPIOB

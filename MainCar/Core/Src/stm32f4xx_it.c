@@ -176,7 +176,6 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 1 */
 }
 
-
 /******************************************************************************/
 /* STM32F4xx Peripheral Interrupt Handlers                                    */
 /* Add here the Interrupt Handlers for the used peripherals.                  */
@@ -186,19 +185,5 @@ void SysTick_Handler(void)
 
 /* USER CODE BEGIN 1 */
 
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	HAL_GPIO_TogglePin(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);	// zmień stan diody
-}
-void EXTI1_IRQHandler(void)
-{
-	HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_Pin);
-}
-void EXTI15_10_IRQHandler(void)
-{
-	HAL_GPIO_EXTI_IRQHandler(LIM_SW_R_Pin);
-	HAL_GPIO_EXTI_IRQHandler(LIM_SW_L_Pin);
-}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

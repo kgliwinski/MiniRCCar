@@ -156,10 +156,14 @@ void startDefaultTask(void *argument) {
 	//DigitalPin builtInLed(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);
 	//builtInLed.writePin(0);
 	//bool state = 0;
-	//HAL_GPIO_EXTI_Callback(LIM_SW_L_Pin);
+	DigitalPin led(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);
+	led.writePin(0);
 	/* Infinite loop */
 	for (;;) {
 		//state = !state;
+		if(HAL_GPIO_ReadPin(LIM_SW_L_GPIO_Port, LIM_SW_L_Pin))
+			led.writePin(1);
+		else led.writePin(0);
 		//builtInLed.writePin(state);
 		osDelay(10);
 	}
