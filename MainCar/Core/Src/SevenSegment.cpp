@@ -1,9 +1,9 @@
 #include "SevenSegment.hh"
 
 SevenSegment::SevenSegment(DigitalPin _ledA, DigitalPin _ledB, DigitalPin _ledC, DigitalPin _ledD,
-		DigitalPin _ledE, DigitalPin _ledF, DigitalPin _ledG) :
+		DigitalPin _ledE, DigitalPin _ledF, DigitalPin _ledG, DigitalPin _ledDP) :
 		ledA(_ledA), ledB(_ledB), ledC(_ledC), ledD(_ledD), ledE(_ledE), ledF(
-				_ledF), ledG(_ledG) {
+				_ledF), ledG(_ledG), ledDP(_ledDP) {
 }
 
 void SevenSegment::clearDisp() {
@@ -14,6 +14,7 @@ void SevenSegment::clearDisp() {
 	ledE.writePin(1);
 	ledF.writePin(1);
 	ledG.writePin(1);
+	ledDP.writePin(1);
 }
 
 bool SevenSegment::writeDigit(uint8_t val) {
@@ -82,4 +83,9 @@ bool SevenSegment::writeDigit(uint8_t val) {
 		ledG.writePin(0);
 	}
 	return 1;
+}
+
+void SevenSegment::setDP(bool state)
+{
+	ledDP.writePin(state);
 }

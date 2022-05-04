@@ -3,8 +3,7 @@
 
 #include <DigitalPin.hh>
 
-class SevenSegment
-{
+class SevenSegment {
 private:
 	DigitalPin ledA;
 	DigitalPin ledB;
@@ -13,14 +12,20 @@ private:
 	DigitalPin ledE;
 	DigitalPin ledF;
 	DigitalPin ledG;
+	DigitalPin ledDP;
+
 public:
 	SevenSegment() = default;
-	SevenSegment(DigitalPin _ledA, DigitalPin _ledB, DigitalPin _ledC, DigitalPin _ledD, DigitalPin _ledE, DigitalPin _ledF, DigitalPin _ledG);
+	SevenSegment(DigitalPin _ledA, DigitalPin _ledB, DigitalPin _ledC,
+			DigitalPin _ledD, DigitalPin _ledE, DigitalPin _ledF,
+			DigitalPin _ledG, DigitalPin _ledDP);
 
 	/// turn off all leds on the display
 	void clearDisp();
 	/// write a single digit on the display
 	bool writeDigit(uint8_t dig);
+	/// set DP on or off
+	void setDP(bool state);
 };
 
 #endif
