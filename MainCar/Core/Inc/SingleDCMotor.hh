@@ -7,11 +7,14 @@
 
 #include <DigitalPin.hh>
 #include <tim.h>
+#include <gpio.h>
 
 /// Standby not included
 enum MotorState {
 	STOP = 0, IDLE, CLOCKWISE, COUNTERCLOCKWISE, SHORT_BRAKE
 };
+
+enum direction {forward = 0, backward};
 
 class SingleDCMotor {
 private:
@@ -35,7 +38,10 @@ public:
 	void setDirection(const bool dir);
 	/// set the PWM pulse width (0-65535) but in the percents range (0-100%)
 	bool setPWMWidth(const uint8_t perc);
+	/// stop or let work of the motor
+	void setstdBy(const bool goNoGo);
 
+	static DigitalPin stdBy;
 };
 
 #endif

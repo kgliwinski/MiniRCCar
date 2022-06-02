@@ -60,7 +60,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern bool run;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -160,7 +160,11 @@ void DebugMon_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+	HAL_IncTick();
+		HAL_SYSTICK_IRQHandler();
+	#ifdef USE_RTOS_SYSTICK
+		osSystickHandler();
+	#endif
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
@@ -184,6 +188,7 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

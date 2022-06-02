@@ -70,6 +70,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(USER_BUTTON_GPIO_Port, &GPIO_InitStruct);
 
+
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin
                            PAPin PAPin */
   GPIO_InitStruct.Pin = DISP_G_Pin|DISP_F_Pin|DISP_E_Pin|DISP_D_Pin

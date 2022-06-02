@@ -49,7 +49,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+extern bool run;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -143,7 +143,6 @@ void MX_FREERTOS_Init(void) {
 	/* USER CODE END RTOS_EVENTS */
 
 }
-
 /* USER CODE BEGIN Header_startDefaultTask */
 /**
  * @brief  Function implementing the defaultTask thread.
@@ -156,16 +155,11 @@ void startDefaultTask(void *argument) {
 	//DigitalPin builtInLed(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);
 	//builtInLed.writePin(0);
 	//bool state = 0;
-	DigitalPin led(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);
-	led.writePin(0);
+
 	/* Infinite loop */
 	for (;;) {
 		//state = !state;
-		if(HAL_GPIO_ReadPin(LIM_SW_L_GPIO_Port, LIM_SW_L_Pin))
-			led.writePin(1);
-		else led.writePin(0);
-		//builtInLed.writePin(state);
-		osDelay(10);
+		osDelay(500);
 	}
 	/* USER CODE END startDefaultTask */
 }
@@ -237,24 +231,69 @@ void startDriveTask(void *argument) {
 	DigitalPin DCBIn1(DC_BIN1_GPIO_Port, DC_BIN1_Pin);
 	DigitalPin DCBIn2(DC_BIN2_GPIO_Port, DC_BIN2_Pin);
 
-	DigitalPin DCStdby(DC_STBY_GPIO_Port, DC_STBY_Pin);
-	DCStdby.writePin(1);
-
 	SingleDCMotor MotorA(DCAIn1, DCAIn2, &htim3, *TIM3, TIM_CHANNEL_1,
 			&(TIM3->CCR1));
 	SingleDCMotor MotorB(DCBIn1, DCBIn2, &htim4, *TIM4, TIM_CHANNEL_2,
 			&(TIM4->CCR2));
 
 	MotorA.init();
-	MotorA.setDirection(1);
-	MotorA.setPWMWidth(100);
+	MotorA.setDirection(forward);
+	MotorA.setPWMWidth(40);
 
+	MotorB.init();
+	MotorB.setDirection(forward);
+	MotorB.setPWMWidth(40);
+	MotorA.setstdBy(0);
+
+	DigitalPin led(BUILTIN_LED_GPIO_Port, BUILTIN_LED_Pin);
+	led.writePin(0);
+	run = 1;
 	//HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 	//TIM3->CCR1 = 65535;
 	//HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
 	//TIM4->CCR2 = 65535;
 	for (;;) {
 
+		MotorA.setstdBy(run);
+		if (HAL_GPIO_ReadPin(LIM_SW_L_GPIO_Port, LIM_SW_L_Pin)
+				== GPIO_PIN_RESET) {
+			led.writePin(1);
+			while (HAL_GPIO_ReadPin(LIM_SW_L_GPIO_Port, LIM_SW_L_Pin)
+					== GPIO_PIN_RESET) {
+				MotorA.setDirection(backward);
+				MotorA.setPWMWidth(100);
+				MotorB.setDirection(backward);
+				MotorB.setPWMWidth(100);
+				osDelay(50);
+			}
+			osDelay(500);
+			MotorA.setPWMWidth(40);
+			MotorB.setPWMWidth(40);
+			MotorA.setDirection(forward);
+			osDelay(1000);
+			MotorB.setDirection(forward);
+
+			led.writePin(0);
+		} else if (HAL_GPIO_ReadPin(LIM_SW_R_GPIO_Port, LIM_SW_R_Pin)
+				== GPIO_PIN_RESET) {
+			led.writePin(1);
+			while (HAL_GPIO_ReadPin(LIM_SW_R_GPIO_Port, LIM_SW_R_Pin)
+					== GPIO_PIN_RESET) {
+				MotorA.setDirection(backward);
+				MotorA.setPWMWidth(100);
+				MotorB.setDirection(backward);
+				MotorB.setPWMWidth(100);
+				osDelay(50);
+			}
+			osDelay(500);
+			MotorA.setPWMWidth(40);
+			MotorB.setPWMWidth(40);
+			MotorB.setDirection(forward);
+			osDelay(1000);
+			MotorA.setDirection(forward);
+
+			led.writePin(0);
+		}
 		osDelay(10);
 	}
 	/* USER CODE END StartDefaultTask */

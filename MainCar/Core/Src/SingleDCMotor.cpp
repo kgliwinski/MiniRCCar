@@ -37,3 +37,11 @@ bool SingleDCMotor::setPWMWidth(uint8_t perc) {
 	*(PWMHandleTypeDefChannel) = width;
 	return 1;
 }
+
+void SingleDCMotor::setstdBy(const bool goNoGo)
+{
+	stdBy.writePin(goNoGo);
+}
+
+DigitalPin DCStdby(DC_STBY_GPIO_Port, DC_STBY_Pin);
+DigitalPin SingleDCMotor::stdBy = DCStdby;

@@ -62,7 +62,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+volatile bool run;
 /* USER CODE END 0 */
 
 /**
@@ -99,8 +99,7 @@ int main(void)
   MX_TIM4_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
   /* USER CODE END 2 */
 
   /* Init scheduler */
